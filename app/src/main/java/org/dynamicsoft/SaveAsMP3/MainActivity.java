@@ -27,6 +27,7 @@
 package org.dynamicsoft.SaveAsMP3;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,16 +35,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        defaultText = (TextView) findViewById(R.id.defaultText);
+        defaultText = findViewById(R.id.defaultText);
 
         if (Build.VERSION.SDK_INT >= 23) {  //Android API 23 read and write permission
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -66,18 +68,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         LayoutInflater li = LayoutInflater.from(getApplicationContext());
-        View dialogView = li.inflate(R.layout.enter_file_name_dialog_box, null);
+        @SuppressLint("InflateParams") View dialogView = li.inflate(R.layout.enter_file_name_dialog_box, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder.setTitle("Enter a file name");
         alertDialogBuilder.setView(dialogView);
-        final EditText userInput = (EditText) dialogView.findViewById(R.id.et_input);
+        final EditText userInput = dialogView.findViewById(R.id.et_input);
         alertDialogBuilder.setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                if(MusicFileName==""){
+                if (MusicFileName.equals("")) {
                     Toast.makeText(getApplicationContext(), "Enter File Name", Toast.LENGTH_LONG).show();
-                }
-                else {
+                } else {
                     MusicFileName = userInput.getText().toString() + ".mp3";
                     downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
                     Intent receivedIntent = getIntent();

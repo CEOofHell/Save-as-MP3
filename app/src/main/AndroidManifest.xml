@@ -15,9 +15,9 @@
         android:theme="@style/Theme.AppCompat.Light">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <data android:mimeType="text/plain"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.SEND" />
+                <data android:mimeType="text/plain" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
         </activity>
